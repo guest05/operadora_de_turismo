@@ -1,0 +1,88 @@
+CREATE DATABASE adrenalisa_turismo_e_aventura;
+
+CREATE TABLE cliente
+(
+id INT NOT NULL,
+pacote_turistico_id INT NOT NULL,
+pessoa_quantidade INT,
+pagamento_forma VARCHAR (255),
+FOREIGN KEY (pacote_turistico_id) REFERENCES pacote_turistico (id),
+PRIMARY KEY (id)
+);
+
+-- Setor de Marketing --
+
+CREATE TABLE hotel
+(
+id INT NOT NULL,
+sobre VARCHAR (255),
+localizacao VARCHAR (255),
+quarto_quantidade INT,
+classificacao INT,
+servico_alimentacao BOOLEAN,
+valor_hospedagem FLOAT,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE operadora_aerea
+(
+id INT NOT NULL,
+nome VARCHAR (255),
+trajeto VARCHAR (255),
+assento_disponivel INT,
+volume_restricao VARCHAR (255),
+taxa_embarque FLOAT,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE operadora_terrestre
+(
+id INT NOT NULL,
+nome VARCHAR (255),
+trajeto VARCHAR (255),
+assento_disponivel INT,
+assento_minimo INT,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE prestador_de_servico
+(
+id INT NOT NULL,
+nome VARCHAR (255),
+telefone CHAR (11),
+email VARCHAR (255),
+CNPJ CHAR (14),
+nome_servico VARCHAR (255),
+descricao VARCHAR (255),
+valor FLOAT,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE atividade
+(
+id INT NOT NULL,
+descricao VARCHAR (255),
+tempo DATETIME,
+transporte BOOLEAN,
+PRIMARY KEY (id)
+);
+
+-- Setor Administrativo --
+
+CREATE TABLE pacote_turistico
+(
+id INT NOT NULL,
+hotel_id INT NOT NULL,
+transporte_aereo_id INT,
+transporte_terrestre_id INT,
+prestador_de_servico_id INT NOT NULL,
+atividade_id INT NOT NULL,
+data DATE,
+vaga_quantidade INT,
+FOREIGN KEY (hotel_id) REFERENCES hotel (id),
+FOREIGN KEY (transporte_aereo_id) REFERENCES operadora_aerea (id),
+FOREIGN KEY (transporte_terrestre_id) REFERENCES operadora_terrestre (id),
+FOREIGN KEY (prestador_de_servico_id) REFERENCES prestador_de_servico (id),
+FOREIGN KEY (atividade_id) REFERENCES atividade (id),
+PRIMARY KEY (id)
+);
